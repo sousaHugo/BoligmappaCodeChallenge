@@ -30,6 +30,10 @@ namespace FirstApplication.Application.Features.GetFromDummyApiExtra
             _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
         }
 
+        /// <summary>
+        /// in this feature I decided to assume that the Api has a method that returns Posts based on a Tag. In this way, the representative object of the User is constructed, which will then be validated and subsequently updated (if it already exists) or created (if it does not yet exist).
+        /// </summary>
+        /// <param name="GetFromDummyApiExtraRequest">The request doesnt have any parameter field.</param>
         public async Task<Unit> Handle(GetFromDummyApiExtraRequest request, CancellationToken cancellationToken)
         {
             _handlerLogger.LogInformation("GetFromDummyApiExtraRequestHandler Handle has started.");

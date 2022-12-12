@@ -30,6 +30,10 @@ public class GetFromDummyApiRequestHandler : IRequestHandler<GetFromDummyApiRequ
         _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
     }
 
+    /// <summary>
+    ///  As I don’t know which methods are provided by the Dummy Api, this functionality assumes that the existing operations only return all the records (Users, Todos, Posts).
+    /// </summary>
+    /// <param name="GetFromDummyApiRequest">The request doesnt have any parameter field.</param>
     public async Task<Unit> Handle(GetFromDummyApiRequest Request, 
         CancellationToken CancellationToken)
     {

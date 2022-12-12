@@ -30,6 +30,10 @@ public class GetFromDummyApiGrpcRequestHandler : IRequestHandler<GetFromDummyApi
         _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
     }
 
+    /// <summary>
+    /// I decided to also implement a Feature similar to GetFromDummyApi but in which the calls are made to the gRPC server.
+    /// </summary>
+    /// <param name="GetFromDummyApiGrpcRequest">The request doesnt have any parameter field.</param>
     public async Task<Unit> Handle(GetFromDummyApiGrpcRequest Request, CancellationToken CancellationToken)
     {
         _handlerLogger.LogInformation("GetFromDummyApiGrpcRequest Handle has started.");

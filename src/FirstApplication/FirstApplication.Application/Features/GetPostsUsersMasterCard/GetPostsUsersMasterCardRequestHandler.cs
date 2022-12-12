@@ -20,6 +20,11 @@ public class GetPostsUsersMasterCardRequestHandler : IRequestHandler<GetPostsUse
         _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
     }
 
+    /// <summary>
+    /// This functionality obtains all the Users that use MasterCard and that are saved in the DB. For each of these Users, a call is made to the Dummy Api, returning their Posts.
+    /// </summary>
+    /// <param name="GetPostsUsersMasterCardRequest">The request doesnt have any parameter field.</param>
+    /// <returns>IEnumerable<PostDto> - List of Posts wich the associated User uses Master Card.</returns>
     public async Task<IEnumerable<PostDto>> Handle(GetPostsUsersMasterCardRequest Request, CancellationToken CancellationToken)
     {
         _handlerLogger.LogInformation("GetPostsUsersMasterCardRequestHandler Handle has started.");

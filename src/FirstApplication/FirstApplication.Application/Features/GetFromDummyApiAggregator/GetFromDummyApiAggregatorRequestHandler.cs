@@ -26,6 +26,11 @@ public class GetFromDummyApiAggregatorRequestHandler : IRequestHandler<GetFromDu
         _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
         _mapper = Mapper ?? throw new ArgumentNullException(nameof(Mapper));
     }
+
+    /// <summary>
+    /// If the APIs are ours, we could create an Aggregate so that it would return all the information we need in a single request. 
+    /// </summary>
+    /// <param name="GetFromDummyApiAggregatorRequest">The request doesnt have any parameter field.</param>
     public async Task<Unit> Handle(GetFromDummyApiAggregatorRequest Request, 
         CancellationToken CancellationToken)
     {

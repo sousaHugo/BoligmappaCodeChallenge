@@ -19,6 +19,11 @@ namespace FirstApplication.Application.Features.GetAllUserInformation
             _mapper = Mapper ?? throw new ArgumentNullException(nameof(Mapper));
             _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
         }
+        /// <summary>
+        /// This feature retrieves all Users stored in the database.
+        /// </summary>
+        /// <param name="GetAllUserInformationRequest">The request doesnt have any parameter field.</param>
+        /// <returns>IEnumerable<GetAllUserInfoDto> - List of Users Info stored in the database.</returns>
         public async Task<IEnumerable<GetAllUserInfoDto>> Handle(GetAllUserInformationRequest Request, 
             CancellationToken CancellationToken)
         {

@@ -1,14 +1,9 @@
 ﻿using FirstApplication.Application.Dtos;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace FirstApplication.Application.Features.GetAllUserInformation
+namespace FirstApplication.Application.Features.GetAllUserInformation;
+
+///<see cref="GetAllUserInformationRequestHandler.Handle(GetAllUserInformationRequest, CancellationToken)"/>
+public class GetAllUserInformationRequest : IRequest<IEnumerable<GetAllUserInfoDto>>
 {
-    public class GetAllUserInformationRequest : IRequest<IEnumerable<GetAllUserInfoDto>>
-    {
-    }
 }

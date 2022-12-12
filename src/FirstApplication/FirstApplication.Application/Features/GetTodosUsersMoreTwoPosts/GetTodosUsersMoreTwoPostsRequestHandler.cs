@@ -20,6 +20,12 @@ public class GetTodosUsersMoreTwoPostsRequestHandler : IRequestHandler<GetTodosU
         _handlerLogger = HandlerLogger ?? throw new ArgumentNullException(nameof(HandlerLogger));
     }
 
+    /// <summary>
+    /// This functionality retrieves all Users that have more than two Posts and that are stored in the DB. For each of these Users, a call is made to the Dummy Api, returning their Todos. For each registration, a request is also made to the Users API and if the User is found from Todos.
+    /// </summary>
+    /// <param name="GetTodosUsersMoreTwoPostsRequest">The request doesnt have any parameter field.</param>
+    /// <returns>IEnumerable<TodoDto> - List of Todos wich the associated User has more than 2 Posts.</returns>
+
     public async Task<IEnumerable<TodoDto>> Handle(GetTodosUsersMoreTwoPostsRequest request, CancellationToken cancellationToken)
     {
         _handlerLogger.LogInformation("GetTodosUsersMoreTwoPostsRequestHandler Handle has started.");
