@@ -52,6 +52,12 @@ In this project we can find all objects used for abstraction and reuse, that is,
 ### 2.3. Docker Compose
 It was also not requested in the Code Challenge but I thought it might be interesting to implement in this solution. In this case, the implementation of Docker Orchestration will make all API's as well as the database server and its administration panel launched and can be used by ConsoleApps.
 
+To run Docker Compose (Example):
+
+ - Change to docker-compose.yml file directory (Win Cmd: *cd C:\Workspaces\Personal\BoligmappaCodeChallenge*);
+ - To get the Container Up: (Win Cmd: *docker-compose -f docker-compose.yml -f docker-compose.override.yml -p boligmappa up -d --build*)
+ - To get the Container Down: (Win Cmd: *docker-compose -f docker-compose.yml -f docker-compose.override.yml -p boligmappa down*)
+
 ## 3. Use Cases
 
 ### 3.1. First Application - Features
