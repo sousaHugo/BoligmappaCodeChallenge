@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "FirstApplication.AppConsole": {
+      "commandName": "Project"
+    },
+    "Docker": {
+      "commandName": "Docker"
+    }
+  }
+}

@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "BCCP.DummyGrpc";
+import "google/protobuf/empty.proto";
+
+package totos;
+
+service Todos {
+  rpc Get(google.protobuf.Empty) returns (TodoResponse);
+  rpc GetByUserId(TodosGetByUserIdRequest) returns (TodoResponse);
+}
+message TodosGetByUserIdRequest {
+	string UserId = 1;
+}
+message TodoResponse {
+	repeated TodoModel Todos = 1;
+}
+message TodoModel {
+  string Id = 1;
+  string Title = 2;
+  string Description = 3;
+  string UserId = 4;
+}

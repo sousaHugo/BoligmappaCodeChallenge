@@ -1,0 +1,33 @@
+version: '3.4'
+
+services:
+
+  postgresdb:
+    image: postgres
+
+  pgadmin:
+    image: dpage/pgadmin4
+
+  bccp.dummyaggregatorapi:
+    image: ${DOCKER_REGISTRY-}bccpdummyaggregatorapi
+    build:
+      context: .
+      dockerfile: Api/BCCP.DummyAggregatorApi/Dockerfile
+
+  bccp.dummyapi:
+    image: ${DOCKER_REGISTRY-}bccpdummyapi
+    build:
+      context: .
+      dockerfile: Api/BCCP.DummyApi/Dockerfile
+
+  bccp.dummygrpc:
+    image: ${DOCKER_REGISTRY-}bccpdummygrpc
+    build:
+      context: .
+      dockerfile: Api/BCCP.DummyGrpc/Dockerfile
+
+volumes:
+  postgres_data:
+  pdadmin_data:
+
+

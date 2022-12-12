@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+option csharp_namespace = "BCCP.DummyGrpc";
+import "google/protobuf/empty.proto";
+
+package posts;
+
+service Posts {
+  rpc Get(google.protobuf.Empty) returns (PostReponse);
+  rpc GetByTag(PostsGetByTagRequest) returns (PostReponse);
+}
+
+message PostReponse {
+	repeated PostModel Posts = 1;
+}
+message PostsGetByTagRequest {
+	string Tag = 1;
+}
+message PostModel {
+  string Id = 1;
+  string Post = 2;
+  string Username = 3;
+  repeated string Tags = 4;
+  repeated string Reactions = 5;
+}

@@ -1,0 +1,30 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>91119d91-96d5-481d-ac12-38da01de9c47</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerfileContext>..\..</DockerfileContext>
+    <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Grpc.AspNetCore" Version="2.40.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\BCCP.DummyGrpc\Protos\posts.proto" GrpcServices="Client">
+      <Link>Protos\posts.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\BCCP.DummyGrpc\Protos\todos.proto" GrpcServices="Client">
+      <Link>Protos\todos.proto</Link>
+    </Protobuf>
+    <Protobuf Include="..\BCCP.DummyGrpc\Protos\users.proto" GrpcServices="Client">
+      <Link>Protos\users.proto</Link>
+    </Protobuf>
+  </ItemGroup>
+
+</Project>

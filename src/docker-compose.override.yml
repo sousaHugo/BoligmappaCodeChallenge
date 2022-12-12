@@ -1,0 +1,58 @@
+version: '3.4'
+
+services:
+
+  postgresdb:
+    image: postgres
+    container_name: postgresdb
+    restart: always
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=admin1234
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: postgresdbadmin
+    restart: always
+    environment:
+        - PGADMIN_DEFAULT_EMAIL=admin@admin.com
+        - PGADMIN_DEFAULT_PASSWORD=admin
+    ports:
+        - "5050:80"
+    volumes:
+        - pdadmin_data:/var/lib/pgadmin
+
+  bccp.dummyaggregatorapi:
+    container_name: bccp.dummyaggregatorapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - "ApiUrls:DummyGrpcUrl=http://bccp.dummygrpc"
+    ports:
+      - "8001:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+  
+  bccp.dummyapi:
+    container_name: bccp.dummyapi
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8002:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro
+
+  bccp.dummygrpc:
+    container_name: bccp.dummygrpc
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+    ports:
+      - "8003:80"
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/root/.aspnet/https:ro

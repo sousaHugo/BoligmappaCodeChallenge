@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+option csharp_namespace = "BCCP.DummyGrpc";
+import "google/protobuf/empty.proto";
+
+package users;
+
+service Users {
+  rpc Get(google.protobuf.Empty) returns (UserReponse);
+  rpc GetByUsername(UsersByUsernameRequest) returns (UserModel);
+}
+
+message UserReponse {
+	repeated UserModel Users = 1;
+}
+
+message UsersByUsernameRequest {
+	string Username = 1;
+}
+message UserModel {
+  string Id = 1;
+  string Username = 2;
+  int32 CardType = 3;
+}
