@@ -20,30 +20,40 @@ For the development of this solution I decided to divide it into two distinct pa
 
  - One of them, and since the API provided is dummy, was to develop a dummy Api in order to be able to carry out development tests (Api Folder).
  - The other part is divided into the two Console Applications that were requested (Folders FirstApplication, SecondApplication and Shared).
+
 ### 2.1. Api Folder
-In this folder I decided to create 3 different projects (*BCCP.DummyApi*, *BCCP.DummyGrpc* and *BCCP.DummyAggregatorApi*).
+In this folder I decided to create 3 different projects (*BCCP.DummyApi*, *BCCP.DummyGrpc* and *BCCP.DummyAggregatorApi*). The development of these projects were not the focus of all development. They were created only as auxiliary projects to the development of the exercise.
  - BCCP.DummyApi:
 	 - This project represents the dummy API that was referred to in the Code Challenge statement. As only 3 endpoints were mentioned in the statement and not knowing what operations this Api would have, I decided to create some specific operations, including GetAll (gets all records from Posts, Todos and Users.)
  - BCCP.DummyGrpc:
 	 - During our conversation at Inscale, it was mentioned that Boligmappa used gRPC in their projects. Since recently during my studies I came across this technology I decided to also implement a gRPC dummy API.
  - BCCP.DummyAggregatorApi:
 	 - Finally, and as I also came across this possibility in my most recent studies, I also decided to implement an Api following the concept of Api Gateway Aggregator. This API can return to the client an object that contains all the necessary information for the client. Since the Aggregator information is obtained from the Dummy Api gRPC.
+
 ### 2.1. FirstApplication and SecondApplication Folders
 In these two folders we can find the implementation of the two Console Applications requested in the Code Challenge. For both applications I decided to use the same architecture. Having decided to use the Clean Architecture structure in order to be able to implement all the SOLID and DRY concepts.
 
 In addition to this structure, in both projects I applied concepts such as Repository Pattern (abstract data access layer) and MediatR Pattern (mainly reduce dependency between objects).
-#### 2.1.1. Project Structure
 
+![enter image description here](https://lh5.googleusercontent.com/JeORJ9U7FUeL0OqWn5UYW-O40-Ke6TuYHUDGjDHBFnDmsNFG5jUoc9PfKHioPKng3Qw=w2400)
+
+#### 2.1.1. Project Structure
  - **Project AppConsole:** This project is responsible for the presentation layer as well as for building all the dependencies that will be injected during the execution of the program (ProgramHostBuilder).
  - **Project Application:** This project is responsible for all Core functionalities of the application, such as all Features (implementation), Contracts, Custom Exceptions, Data Transfer Objects, etc.
  - **Project Domain:** This project just presents all the domains (entities that represent the database tables) of the application as well as models that represent the objects coming from the gRPC calls.
  - **Project Infrastructure:** This project is responsible for the entire infrastructure of the application, that is, the definition of the DB Context, the data access layer (Repository), invocation of the different Api (Web Api and gRPC) and for the Proto Clients (gRPC Client classes).
  - **Project Tests:** This project is responsible for implementing the tests for all Features of the project.
+
+![enter image description here](https://lh4.googleusercontent.com/rMMktWGiatLHNfcaATSY6B7FEmIP4KVBRTdwNezQVscag5br5YW13Ct_NcqC0Z_kWHk=w2400)
+
 ### 2.2. Shared Folder
 In this project we can find all objects used for abstraction and reuse, that is, generic objects for Dependency Injection (DbExtension), Repository operations (BaseRepository), generic object for calls to the Api (BaseService), etc.
+
 ### 2.3. Docker Compose
 It was also not requested in the Code Challenge but I thought it might be interesting to implement in this solution. In this case, the implementation of Docker Orchestration will make all API's as well as the database server and its administration panel launched and can be used by ConsoleApps.
+
 ## 3. Use Cases
+
 ### 3.1. First Application - Features
  - **GetAllUserInformation:** This feature retrieves all Users stored in the database.
  - **GetFromDummyApi:** As I don't know which methods are provided by the Dummy Api, this functionality assumes that the existing operations only return all the records (Users, Todos, Posts). For its implementation, follow these steps:
@@ -66,6 +76,7 @@ It was also not requested in the Code Challenge but I thought it might be intere
  - **GetAllPostInfo:** This feature retrieves all information related to the Posts stored in the DB.
  - **GetPostsFromDummyApi:** This feature gets all the information related to the Posts through an HTTP call to the Dummy API. Then the application checks whether each of these Posts is valid to be saved (the objects are validated using the FluentValidation library). If the object is valid for saving, a new validation is performed. If the object already exists in the database, it is updated. Otherwise, it will be created.
  - **GetPostsFromDummyApiGRpc:** This feature retrieves all information related to the Posts through a gRPC call.
+
 ## 4. Technology / Frameworks
  - AutoMapper
  - FluentValidation
@@ -81,12 +92,43 @@ It was also not requested in the Code Challenge but I thought it might be intere
  - EntityFrameworkCore
  - PostgreSQL
  - Swashbuckle
+
 ## 5. Run / Debug
 To run the application without using Docker Compose, just run it. The URLs that are parameterized in the different projects (appsettings.json) are defined for when the applications are launched locally.
 
 To use Docker Compose, all Console Apps settings (appsettings.json ) must be updated to the correct endpoints.
 
 ## 6. AWS Deploy
+In my opinion, the simplest way to have control over the CI/CD for our application is using GitHub as a code repository, GitHub Actions that will work as a Workflow for the CI/CD and AWS CodeDeploy that will allow the application to be deployed for any Amazon EC2.
+
+Important components for the process:
+
+ - **GitHub Actions:** Workflow orchestration.
+ - **AWS CodeDeploy:** AWS service responsible for managing the deployment for an EC2 Autoscaling Group.
+ - **AWS Auto Scaling:** AWS service that helps in maintaining the availability and elasticity of the application, adding or removing instances if necessary.
+ - **Amazon EC2:** Instance to which the Deploy will be made.
+ - **AWS CloudFormation:** AWS service used to set up the initial infrastructure.
+ - **Amazon S3:** Where the deploy artifacts will be stored.
+ 
+An AWS account with the necessary permissions to create resources and a GitHub account with permissions to create Repositories, create workflows and manage GitHub secrets.
+
+After ensuring all access both on GitHub and on AWS, a new Stack must be created and the template (.yml file) must be uploaded with all the settings for creating the infrastructure. During configuration, you must change all necessary settings such as Name, VPC and Subnets, information from GitHub.
+
+In addition, the AWS Code Deploy integration with GitHub should also be configured (I think it is not necessary to define the step-by-step for this configuration since the documentation provided is very explicit: https://docs.aws. amazon.com/codedeploy/latest/userguide/integrations-partners-github.html#behaviors-authentication).
+
+Finally, you must parameterize the GitHub Secrets in GitHub (RoleName created during the CloudFormation configuration) and also parameterize the entire Workflow in the GitHub Actions area.
+
+As we spoke, my knowledge of AWS is very recent and much more theoretical (I took the course recently) than practical. However, I am absolutely sure that if I need to move from theory to practice I will do it without major problems. Both because the documentation provided by Amazon is very complete and also because of my commitment to learning.
 
 ## 7. Conclusion
 It is clear that this project is just an exercise and that it could be improved in some aspects. However, I think it meets all the requirements that were asked in the statement. And beyond that, I think it has even more features that demonstrate some knowledge beyond what is required, as is the case for example with the gRPC Server or the Gateway Aggregator.
+
+And finally, with the use of these design patterns and this architecture I tried to achieve some benefits such as:
+
+ - Reduced code redundancy; 
+ - Possibility of fewer errors; 
+ - Maintain a centralized data access layer; 
+ - Remove dependencies between objects;
+ - Object reuse; 
+ - Easier to test the different functionalities; 
+ - Easier to implement some changes.
